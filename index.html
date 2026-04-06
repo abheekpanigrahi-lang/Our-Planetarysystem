@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Solar System Simulation</title>
+  <link rel="stylesheet" href="style.css?v=1.2">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Loading Screen Overlay -->
+  <div id="loading-screen">
+      <div id="loading-content">
+          <h1 id="loading-title">INITIALIZING SOLAR SYSTEM</h1>
+          <div id="loading-bar-container">
+              <div id="loading-bar"></div>
+          </div>
+          <p id="loading-text">Loading Assets: <span id="loading-percentage">0%</span></p>
+      </div>
+  </div>
+
+  <!-- Home Screen / Splash Page -->
+  <div id="home-screen" class="hidden">
+      <div id="home-content">
+          <img src="logo.png" alt="Our Planetary System Logo" id="home-logo">
+          <h1 id="home-title">OUR PLANETARY SYSTEM</h1>
+          <p id="home-subtitle">Journey through the stars in high-definition interactive 3D.</p>
+          <button id="start-exploration">START EXPLORATION</button>
+          
+          <div id="home-footer">
+              <a href="#" id="open-howto" class="footer-link">How to Use</a>
+              <span class="footer-divider">|</span>
+              <a href="#" id="open-about" class="footer-link">About</a>
+          </div>
+      </div>
+  </div>
+
+  <!-- Info Modals (Hidden by default) -->
+  <div id="info-modal" class="hidden">
+      <div id="modal-container">
+          <button id="close-modal">&times;</button>
+          <div id="modal-content">
+              <!-- Content will be injected by script.js -->
+          </div>
+      </div>
+  </div>
+
+  <!-- Interactive Help Icons (Simulation View) -->
+  <div id="sim-help" class="hidden">
+      <button class="help-btn" id="sim-open-howto" title="How to Use">?</button>
+      <button class="help-btn" id="sim-open-about" title="About Page">i</button>
+  </div>
+
+  <!-- Ambient Vignette -->
+  <div id="vignette"></div>
+
+  <!-- Three.js Core & Post-Processing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <!-- Side Navigation Sidebar -->
+  <div id="planet-nav" class="sidebar mobile-hide">
+    <h3 class="sidebar-title">The Planets</h3>
+    <ul id="planet-list"></ul>
+  </div>
+
+  <!-- Mobile Menu Toggle Button -->
+  <button id="menu-toggle" class="mobile-only" title="Toggle Navigation">
+      <div class="hamburger-bar"></div>
+      <div class="hamburger-bar"></div>
+      <div class="hamburger-bar"></div>
+  </button>
+
+  <button id="reset-pov">Return to original POV</button>
+  <script src="script.js?v=1.2"></script>
+  <svg id="svg-overlay" class="hidden">
+    <circle id="line-point" cx="0" cy="0" r="6" />
+    <path id="line-path" d="" />
+  </svg>
+
+  <div id="planet-info" class="hidden">
+    <div class="info-content">
+      <h2 id="info-title">Planet Name</h2>
+      <div class="separator"></div>
+      <ul id="info-desc">
+        <li>Planet Description...</li>
+      </ul>
+      <button id="close-info">Close</button>
+    </div>
+  </div>
+
+</body>
+
+</html>

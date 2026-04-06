@@ -1,0 +1,728 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
+}
+
+/* Atmospheric Vignette */
+#vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Loading Screen Sequence */
+#loading-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+}
+
+#loading-content {
+  text-align: center;
+}
+
+#loading-title {
+  font-family: 'Orbitron', sans-serif;
+  color: #8be9fd;
+  font-size: 2rem;
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+  text-shadow: 0 0 20px rgba(139, 233, 253, 0.5);
+  animation: pulse 2s infinite alternate;
+}
+
+#loading-bar-container {
+  width: 300px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+}
+
+#loading-bar {
+  width: 0%;
+  height: 100%;
+  background: #8be9fd;
+  box-shadow: 0 0 10px #8be9fd;
+  transition: width 0.2s ease;
+}
+
+#loading-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; text-shadow: 0 0 10px rgba(139, 233, 253, 0.2); }
+  100% { opacity: 1; text-shadow: 0 0 30px rgba(139, 233, 253, 0.8); }
+}
+
+/* Home Screen Splash Page */
+#home-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65); /* dark overlay to make Sun pop behind */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+#home-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#home-content {
+  text-align: center;
+  max-width: 800px;
+  animation: fadeIn 2s ease;
+}
+
+#home-logo {
+  max-width: 220px;
+  margin-bottom: 32px;
+  filter: drop-shadow(0 0 20px rgba(139, 233, 253, 0.4));
+}
+
+#home-title {
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+  font-size: 3.2rem;
+  letter-spacing: 12px;
+  margin-bottom: 12px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 1.0);
+}
+
+#home-subtitle {
+  font-family: 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+#start-exploration {
+  padding: 14px 42px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: rgba(139, 233, 253, 0.1);
+  border: 2px solid #8be9fd;
+  border-radius: 4px;
+  color: #8be9fd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(139, 233, 253, 0.2);
+}
+
+#start-exploration:hover {
+  background: rgba(139, 233, 253, 1.0);
+  color: #000;
+  box-shadow: 0 0 30px #8be9fd;
+  transform: translateY(-4px);
+}
+
+#start-exploration:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#home-footer {
+  margin-top: 56px;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  color: #8be9fd;
+  text-shadow: 0 0 10px rgba(139, 233, 253, 0.5);
+}
+
+.footer-divider {
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 16px;
+}
+
+/* Modal System */
+#info-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 0.4s ease;
+}
+
+#info-modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#modal-container {
+  width: 90%;
+  max-width: 650px;
+  background: rgba(20, 25, 40, 0.85);
+  border: 1px solid rgba(139, 233, 253, 0.3);
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: modalIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#close-modal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+#close-modal:hover {
+  opacity: 1;
+  color: #8be9fd;
+}
+
+.modal-title {
+  font-family: 'Orbitron', sans-serif;
+  color: #8be9fd;
+  font-size: 1.8rem;
+  margin-top: 0;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+  border-bottom: 1px solid rgba(139, 233, 253, 0.2);
+  padding-bottom: 12px;
+}
+
+.modal-text {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.modal-text h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.highlight {
+  color: #8be9fd;
+  font-weight: 800;
+}
+
+/* persistent help buttons (sim view) */
+#sim-help {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  display: flex;
+  gap: 12px;
+  z-index: 150;
+  transition: opacity 0.4s ease;
+}
+
+#sim-help.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.help-btn {
+  width: 38px;
+  height: 38px;
+  background: rgba(10, 15, 25, 0.85);
+  border: 1px solid rgba(139, 233, 253, 0.4);
+  border-radius: 50%;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.help-btn:hover {
+  background: rgba(139, 233, 253, 0.2);
+  color: #8be9fd;
+  border-color: #8be9fd;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(139, 233, 253, 0.5);
+}
+
+#planet-info {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 380px;
+  background: rgba(10, 15, 25, 0.85);
+  /* dark blur */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid #8be9fd;
+  /* cyan border as per sketch */
+  border-radius: 12px;
+  color: white;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+#planet-info.hidden {
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#info-title {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(139, 233, 253, 0.6);
+}
+
+.separator {
+  width: 100%;
+  height: 2px;
+  background-color: #f1fa8c;
+  /* yellow separator as per sketch */
+  margin-top: -8px;
+  margin-bottom: 0px;
+}
+
+#info-desc {
+  margin: 0;
+  padding: 0 0 0 20px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+#info-desc li {
+  margin-bottom: 8px;
+}
+
+#info-desc li::marker {
+  color: #8be9fd;
+  /* cyan bullets */
+  font-weight: bold;
+}
+
+#close-info {
+  margin-top: 8px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-end;
+}
+
+#close-info:hover {
+  background: rgba(139, 233, 253, 0.2);
+  border-color: #8be9fd;
+  box-shadow: 0 0 15px rgba(139, 233, 253, 0.5);
+  transform: translateY(-2px);
+}
+
+#close-info:active {
+  transform: translateY(1px);
+}
+
+#svg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+#svg-overlay.hidden {
+  opacity: 0;
+}
+
+#svg-overlay {
+  pointer-events: none !important; /* Task 3: Never block taps on the 3D scene! */
+}
+
+#line-point {
+  fill: transparent;
+  stroke: #ffffff;
+  /* white line for visibility in space */
+  stroke-width: 2px;
+}
+
+#line-path {
+  fill: transparent;
+  stroke: #ffffff;
+  stroke-width: 2px;
+  stroke-linejoin: miter;
+  /* sharp corner like the drawing */
+}
+
+#reset-pov {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background: rgba(10, 15, 25, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 100;
+}
+
+#reset-pov:hover {
+  background: rgba(139, 233, 253, 0.2);
+  border-color: #8be9fd;
+  box-shadow: 0 0 15px rgba(139, 233, 253, 0.5);
+  transform: translateY(-2px);
+}
+
+#reset-pov:active {
+  transform: translateY(1px);
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 220px;
+  background: rgba(10, 15, 25, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 233, 253, 0.4);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 100;
+  color: white;
+}
+
+.sidebar-title {
+  margin: 0 0 16px 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #8be9fd;
+  padding-bottom: 8px;
+  text-shadow: 0 0 10px rgba(139, 233, 253, 0.4);
+}
+
+#planet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#planet-list li {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+#planet-list li:hover {
+  background: rgba(139, 233, 253, 0.15);
+  transform: translateX(6px);
+  color: #8be9fd;
+  border-left: 4px solid #8be9fd;
+  box-shadow: 0 0 15px rgba(139, 233, 253, 0.2);
+}
+
+/* 📱 MOBILE RESPONSIVENESS (Tasks 2, 3, & 4) */
+
+.mobile-only {
+    display: none;
+}
+
+#menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(10, 15, 25, 0.85);
+    border: 1px solid rgba(139, 233, 253, 0.4);
+    border-radius: 8px;
+    display: none; /* Only show on mobile */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+}
+
+.hamburger-bar {
+    width: 24px;
+    height: 2px;
+    background: #8be9fd;
+    box-shadow: 0 0 10px rgba(139, 233, 253, 0.5);
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: flex;
+    }
+    
+    .mobile-hide {
+        display: none !important;
+    }
+
+    #home-title {
+        font-size: 2.2rem;
+        letter-spacing: 4px;
+    }
+
+    #home-subtitle {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        padding: 0 20px;
+    }
+
+    #home-logo {
+        max-width: 160px;
+    }
+
+    /* Task 4: Sidebar becomes a fixed overlay Drawer */
+    #planet-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: rgba(10, 15, 25, 0.95);
+        border-right: 1px solid #8be9fd;
+        border-radius: 0;
+        padding-top: 80px;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 999;
+    }
+
+    #planet-nav.active {
+        display: block !important;
+        transform: translateX(0);
+    }
+
+    /* Task 3: Planet Info becomes a Bottom Sheet */
+    #planet-info {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        max-width: 100vw;
+        max-height: 45vh; /* Limit height so planets stay visible */
+        border-radius: 20px 20px 0 0;
+        border-left: none;
+        border-right: none;
+        padding: 30px 20px 20px;
+        transform: translateY(100%) translateX(0) !important; /* Reset translateX */
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+        z-index: 500 !important;
+    }
+
+    #planet-info::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+    }
+
+    #planet-info.hidden {
+        transform: translateY(100%);
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    #planet-info:not(.hidden) {
+        transform: translateY(0) translateX(0) !important; /* Force reset translateX on mobile */
+        display: flex !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        z-index: 500;
+    }
+
+    #info-title {
+        font-size: 1.3rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Tracking line can be busy on mobile, making it thinner */
+    #line-path, #line-point {
+        stroke-width: 1px;
+    }
+
+    #reset-pov {
+        top: 20px;
+        right: 20px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    #sim-help {
+        bottom: 25px;
+        left: 20px;
+        top: auto;
+        right: auto;
+        gap: 12px;
+        z-index: 300;
+    }
+
+    .help-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    #modal-container {
+        padding: 24px;
+        width: 95%;
+    }
+
+    .modal-title {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #home-title {
+        font-size: 4.8vw !important; /* Task 2: Math-calculated 1-line fit for SE */
+        letter-spacing: 0px !important;
+        white-space: nowrap !important;
+        display: block !important;
+        width: 100% !important;
+        text-align: center;
+    }
+    
+    #home-subtitle {
+        font-size: 3.5vw;
+        letter-spacing: 0.5px;
+        padding: 0 5%;
+        opacity: 0.8;
+    }
+
+    /* Task 4: Force high-contrast visibility and reset translateX */
+    #planet-info:not(.hidden) {
+        transform: translateY(0) translateX(0) !important;
+        display: block !important;
+        visibility: visible !important;
+        z-index: 99999 !important;
+        background: rgba(5, 10, 20, 0.98) !important;
+        box-shadow: 0 -10px 50px rgba(0, 0, 0, 1.0);
+    }
+}
