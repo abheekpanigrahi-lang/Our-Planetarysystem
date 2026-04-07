@@ -300,7 +300,7 @@ const planetData = [
   { size: 1.4, texture: 'uranus.png', distance: 42, speed: 0.001 },
   { size: 1.2, texture: 'neptune.jpg', distance: 48, speed: 0.00098 },
 ];
-// 1️⃣ Create planets
+//  Create planets
 const planet = planetData.map(p => createPlanet(p.size, p.texture, p.distance, p.speed));
 
 // Create Asteroid Belt using InstancedMesh for high performance
@@ -352,10 +352,10 @@ function createAsteroidBelt() {
 
 const asteroidBelt = createAsteroidBelt();
 
-// 2️⃣ Extract meshes for clicking
+// 2. Extract meshes for clicking
 const planetMeshes = planet.map(p => p.mesh);
 
-// 3️⃣ Raycaster & click event
+// 3. Raycaster & click event
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
